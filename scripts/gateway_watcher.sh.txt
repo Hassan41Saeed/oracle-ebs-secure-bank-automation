@@ -1,0 +1,21 @@
+#!/bin/bash
+# =============================================================================
+# SCRIPT: gateway_watcher.sh
+# DESCRIPTION: Uses inotifywait to trigger bank uploads in real-time
+# =============================================================================
+
+WATCH_DIR="/opt/data/nfshare/bank_outbound"
+
+# Monitor for new file creation or moves into the directory
+inotifywait -r -m -e create -e moved_to --format '%w%f' "$WATCH_DIR" | while read FILE
+do
+    echo "New file detected: $FILE"
+    
+    # Extract file and directory info
+    FILENAME=$(basename "$FILE")
+    DIRNAME=$(dirname "$FILE")
+    CATEGORY=$(basename "$DIRNAME")
+
+    # Trigger the Secure SFTP Expect Script
+    ./secure_bank_upload.exp "$FILE" "$CATEGORY"
+done

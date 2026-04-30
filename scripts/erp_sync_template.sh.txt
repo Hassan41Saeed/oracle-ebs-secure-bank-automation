@@ -1,0 +1,30 @@
+#!/bin/bash
+# =============================================================================
+# SCRIPT: erp_sync_template.sh
+# DESCRIPTION: Synchronizes payment files from ERP to Security Gateway
+# FREQUENCY: Cron job (Every 5 Minutes)
+# =============================================================================
+
+# Define Source Directories (Sanitized)
+SOURCE_DIRS=(
+  "/opt/oracle/ebs/outbound/PAYMENTS/IBFT"
+  "/opt/oracle/ebs/outbound/PAYMENTS/SALARY"
+  "/opt/oracle/ebs/outbound/PAYMENTS/CHEQUES"
+)
+
+# Destination on the Gateway (via NFS Mount)
+DEST_GATEWAY="/mnt/secure_gateway_nfs/BANK_OUT/"
+LOCAL_BACKUP="/opt/oracle/ebs/sent_history/"
+
+# Loop through categories and sync
+for DIR in "${SOURCE_DIRS[@]}"; do
+    SUB_FOLDER=$(basename "$DIR")
+    
+    # Use rsync for delta-transfer and integrity
+    rsync -avz "$DIR"/*.txt "$DEST_GATEWAY/$SUB_FOLDER/"
+    
+    # Maintain a local archive for auditing
+    cp -a "$DIR"/*.txt "$LOCAL_BACKUP/$SUB_FOLDER/"
+done
+
+echo "Sync completed at $(date)"
