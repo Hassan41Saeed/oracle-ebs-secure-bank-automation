@@ -56,6 +56,3 @@ CRITICAL: This repository has been fully sanitized. All IP addresses,
 hostnames, and organization-specific names have been replaced with 
 placeholders (e.g., X.X.X.X) to protect corporate confidentiality.
 
-===============================================================================
-END OF DOCUMENT
-===============================================================================
