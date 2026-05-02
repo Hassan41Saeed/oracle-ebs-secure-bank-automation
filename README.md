@@ -1,10 +1,3 @@
-===============================================================================
-PROJECT: SECURE ERP-TO-BANKING AUTOMATION FRAMEWORK
-DEVELOPER: [Your Name/Handle]
-ROLE: Solution Architect / ERP Functional
-STATUS: COMPLETED & SANITIZED
-===============================================================================
-
 [1.0] DESCRIPTION
 -------------------------------------------------------------------------------
 This project establishes a mission-critical, high-security bridge between 
